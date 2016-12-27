@@ -1,11 +1,15 @@
 import sys
 from qtpy import QtWidgets, QtGui
+from i18n import _
+from ui.timeline import TimelineUI
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    
+    timeline = dict()
+    tl_ui = TimelineUI(timeline)
 
-    window = QtWidgets.QWidget()
-    window.show()
+    tl_ui.show()
 
     sys.exit(app.exec_())
 
