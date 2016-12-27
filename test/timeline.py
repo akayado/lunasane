@@ -10,8 +10,7 @@ def main():
 
     proj = Project.load('test/test.json')
     
-    timeline = dict()
-    tl_ui = TimelineUI(timeline)
+    tl_ui = TimelineUI(proj.sources[0], None)
 
     tl_ui.show()
 

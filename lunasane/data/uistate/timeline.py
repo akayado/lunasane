@@ -1,2 +1,0 @@
-class TimelineUIState:
-    pass

@@ -3,9 +3,10 @@ from .track import TrackHeaderUI, TrackBodyUI
 from ..data.uistate.timeline import TimelineUIState
 
 class TimelineUI(QtWidgets.QFrame):
-    def __init__(self, timeline, parent=None):
+    def __init__(self, composite, state, parent=None):
         super().__init__(parent)
-        self.timeline = timeline
+        self.composite = composite
+        self.state = state
         self.initialize_ui()
 
     def initialize_ui(self):
@@ -43,9 +44,9 @@ class TimelineUI(QtWidgets.QFrame):
         
         # Generate tracks
 
-        for i in range(3):
-            header_splitter.addWidget(TrackHeaderUI())
-            body_splitter.addWidget(TrackBodyUI())
+        for track in self.composite.tracks:
+            header_splitter.addWidget(TrackHeaderUI(track, None, header_splitter))
+            body_splitter.addWidget(TrackBodyUI(track, None, body_splitter))
 
         hsplitter.addWidget(header_splitter)
         hsplitter.addWidget(body_splitter)

@@ -3,6 +3,7 @@
 import json
 from .ids import IDNotFoundError, new_id_classes
 from .composite import Composite
+from .uistate import UIState
 
 ProjectID, ProjectIDHolder = new_id_classes('prj')
 
@@ -17,7 +18,12 @@ class Project(ProjectIDHolder):
         self.domain = self.__class__.count
         self.__class__.count += 1
 
+        # main data
         self.sources = []
+
+        # UI state data
+        self.ui_states = []
+        
 
 
     # get a source by its ID
@@ -34,8 +40,10 @@ class Project(ProjectIDHolder):
 
     def to_dict(self):
         srcs_d = [c.to_dict() for c in self.sources]
+        states_d = [s.to_dict() for s in self.ui_states]
         d = {
                 'sources': srcs_d,
+                'ui_states': states_d
             }
         return d
 
@@ -53,6 +61,7 @@ class Project(ProjectIDHolder):
             return src
         p = cls()
         p.sources = [_source_from_dict(p, srcd) for srcd in d['sources']]
+        p.ui_states = [UIState.from_dict(sd) for sd in d['ui_states']]
         return p
 
     @classmethod

@@ -1,5 +1,4 @@
 from .ids import new_id_classes
-from .timeline import Timeline
 from .source import Source, SourceID
 from .track import Track, track_from_dict
 
