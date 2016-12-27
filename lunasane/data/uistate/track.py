@@ -1,0 +1,2 @@
+class TrackUIState:
+    pass

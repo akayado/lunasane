@@ -1,24 +1,6 @@
 from qtpy import QtGui, QtWidgets, QtCore
-
-class TrackHeaderUI(QtWidgets.QFrame):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setFrameStyle(self.NoFrame)
-
-        layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(QtWidgets.QLabel("head"))
-
-        self.setLayout(layout)
-
-class TrackBodyUI(QtWidgets.QFrame):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setFrameStyle(self.NoFrame)
-
-        layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(QtWidgets.QLabel("body"))
-
-        self.setLayout(layout)
+from .track import TrackHeaderUI, TrackBodyUI
+from ..data.uistate.timeline import TimelineUIState
 
 class TimelineUI(QtWidgets.QFrame):
     def __init__(self, timeline, parent=None):

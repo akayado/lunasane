@@ -1,13 +1,18 @@
 # TODO import / export
 
 import json
-from .ids import IDNotFoundError
+from .ids import IDNotFoundError, new_id_classes
 from .composite import Composite
 
-class Project:
+ProjectID, ProjectIDHolder = new_id_classes('prj')
+
+class Project(ProjectIDHolder):
     count = 0
 
     def __init__(self):
+        # initialize ProjectIDHolder with domain 0, the only domain.
+        super().__init__(0)
+
         # the domain for discriminating sources with same IDs etc.
         self.domain = self.__class__.count
         self.__class__.count += 1
@@ -43,16 +48,20 @@ class Project:
     @classmethod
     def from_dict(cls, d):
         def _source_from_dict(p, srcd):
-            src = None
+            if srcd['type'] == 'composite':
+                src = Composite.from_dict(p, srcd)
             return src
         p = cls()
         p.sources = [_source_from_dict(p, srcd) for srcd in d['sources']]
         return p
 
     @classmethod
-    def from_json(cls, json):
-        return cls.from_dict(json.loads(json))
+    def from_json(cls, json_str):
+        return cls.from_dict(json.loads(json_str))
     
     @classmethod
     def load(cls, filepath):
-        pass
+        f = open(filepath)
+        text = f.read()
+        f.close()
+        return cls.from_json(text)
