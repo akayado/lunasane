@@ -1,8 +1,8 @@
 # TODO import / export
 
 import json
-from .ids import NotFoundError
-from .composite import Composite, CompositeID
+from .ids import IDNotFoundError
+from .composite import Composite
 
 class Project:
     count = 0
@@ -12,25 +12,25 @@ class Project:
         self.domain = self.__class__.count
         self.__class__.count += 1
 
-        self.composites = []
+        self.sources = []
 
 
-    # get a composite by its ID
+    # get a source by its ID
 
-    def composite(self, comp_id):
-        comp = list(filter(lambda c: c.id == comp_id, self.composites))
-        if len(comp) > 0:
-            return comp[0]
+    def source(self, src_id):
+        src = list(filter(lambda c: c.id == src_id, self.sources))
+        if len(src) > 0:
+            return src[0]
         else:
-            raise NotFoundError(comp_id)
+            raise IDNotFoundError(src_id)
 
 
     # import / export functionalities
 
     def to_dict(self):
-        comps_d = [c.to_dict() for c in self.composites]
+        srcs_d = [c.to_dict() for c in self.sources]
         d = {
-                'composites': comps_d,
+                'sources': srcs_d,
             }
         return d
 
@@ -42,8 +42,11 @@ class Project:
 
     @classmethod
     def from_dict(cls, d):
+        def _source_from_dict(p, srcd):
+            src = None
+            return src
         p = cls()
-        p.composites = [Composite.from_dict(p, cd) for cd in d['composites']]
+        p.sources = [_source_from_dict(p, srcd) for srcd in d['sources']]
         return p
 
     @classmethod

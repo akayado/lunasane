@@ -1,7 +1,4 @@
-
-# ID not found error
-
-class NotFoundError(Exception):
+class IDNotFoundError(Exception):
     def __init__(self, value):
         self.value = value
     def __str__(self):
