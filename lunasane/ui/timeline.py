@@ -1,3 +1,5 @@
+#TODO: Remove composite from __init__'s args.
+
 from qtpy import QtGui, QtWidgets, QtCore
 from .track import TrackHeaderUI, TrackBodyUI
 from ..data.uistate.timeline import TimelineUIState
