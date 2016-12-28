@@ -1,3 +1,37 @@
+"""
+DomainNotFoundErrors are raised whenever a instance corresponding to a
+domain could not be found or the class is not properly defined for domain
+handling.
+"""
+
+class DomainNotFoundError(Exception):
+    def __init__(self, cls, dom):
+        self.cls, self.dom = cls, dom
+    def __str__(self):
+        return repr(self.cls) + ', ' + repr(self.dom)
+
+"""
+Classes that hold domains must inherit the DomainHolder class and initialize count and domain_dict.
+Each instance of subclasses will then have a domain.
+To obtain an instance from by a domain number, one must call from_domain.
+Domain numbers are generated dynamically and are not saved into any file.
+"""
+
+class DomainHolder:
+    def __init__(self, cls=None):
+        if cls==None:
+            cls = self.__class__
+        self.domain = cls.count
+        cls.domain_dict[self.domain] = self
+        cls.count += 1
+
+    @classmethod
+    def from_domain(cls, domain):
+        if domain in cls.domain_dict:
+            return cls.domain_dict[domain]
+        else:
+            raise DomainNotFoundError(cls, domain)
+
 class IDNotFoundError(Exception):
     def __init__(self, value):
         self.value = value

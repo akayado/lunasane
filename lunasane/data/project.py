@@ -1,6 +1,6 @@
 import json
 import os.path
-from .ids import IDNotFoundError, new_id_classes
+from .ids import DomainHolder, IDNotFoundError, new_id_classes
 from .composite import Composite
 from .uistate import UIState
 
@@ -16,18 +16,18 @@ Projects can refer to each other using their file paths (relatie/absolute).
 Hence Projects must be saved to a file to be able to be referred to.
 """
 
-class Project(ProjectIDHolder):
+class Project(ProjectIDHolder, DomainHolder):
     count = 0
+    domain_dict = {}
 
     def __init__(self):
         # initialize ProjectIDHolder with domain 0, the only domain.
-        super().__init__(0)
+        ProjectIDHolder.__init__(self, 0)
 
         self.abspath = None
 
-        # the domain for discriminating sources with same IDs etc.
-        self.domain = self.__class__.count
-        self.__class__.count += 1
+        # initialize DomainHolder for discriminating sources with same IDs etc.
+        DomainHolder.__init__(self)
 
         # main data
         self.sources = []

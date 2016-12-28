@@ -1,16 +1,16 @@
-from .ids import new_id_classes
+from .ids import DomainHolder, new_id_classes
 from .source import Source, SourceID
 from .track import Track, track_from_dict
 
-class Composite(Source):
+class Composite(Source, DomainHolder):
     count = 0
+    domain_dict = {}
 
     def __init__(self, project, comp_id=None):
-        super().__init__(project, comp_id)
+        Source.__init__(self, project, comp_id)
 
-        # the domain for discriminating tracks with same IDs etc.
-        self.domain = self.__class__.count
-        self.__class__.count += 1
+        # initialize DomainHolder for discriminating tracks with same IDs etc.
+        DomainHolder.__init__(self)
 
         self.project = project
         self.tracks = []

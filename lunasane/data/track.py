@@ -1,17 +1,17 @@
-from .ids import new_id_classes
+from .ids import DomainHolder, new_id_classes
 from .clip import clip_from_dict
 
 TrackID, TrackIDHolder = new_id_classes('trk')
 
-class Track(TrackIDHolder):
+class Track(TrackIDHolder, DomainHolder):
     count = 0
+    domain_dict = {}
     
     def __init__(self, composite, name, track_id=None):
-        super().__init__(composite.domain, track_id)
+        TrackIDHolder.__init__(self, composite.domain, track_id)
 
-        # the domain for discriminating clips etc. with same IDs etc.
-        self.domain = self.__class__.count
-        self.__class__.count += 1
+        # initialize DomainHolder for discriminating clips etc. with same IDs etc.
+        DomainHolder.__init__(self, Track)
 
         self.composite = composite
         self.name = name
@@ -34,7 +34,7 @@ class Track(TrackIDHolder):
 
 class AudioTrack(Track):
     def __init__(self, composite, name, track_id=None):
-        super().__init__(composite, name, track_id)
+        Track.__init__(self, composite, name, track_id)
 
 
     # import / export functionalities
@@ -52,7 +52,7 @@ class AudioTrack(Track):
 
 class PianoTrack(AudioTrack):
     def __init__(self, composite, name, track_id=None):
-        super().__init__(composite, name, track_id)
+        AudioTrack.__init__(self, composite, name, track_id)
 
 
     # import / export functionalities
