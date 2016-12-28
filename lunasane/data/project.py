@@ -1,11 +1,20 @@
-# TODO import / export
-
 import json
+import os.path
 from .ids import IDNotFoundError, new_id_classes
 from .composite import Composite
 from .uistate import UIState
 
 ProjectID, ProjectIDHolder = new_id_classes('prj')
+
+"""
+Projects save/load project data and UI states.
+A Project corresponds to a main window.
+
+Projects hold ProjectIDs that CANNOT be used to refer resources among projects.
+Usage of these ProjectIDs don't exist yet, though may occur in the future.
+Projects can refer to each other using their file paths (relatie/absolute).
+Hence Projects must be saved to a file to be able to be referred to.
+"""
 
 class Project(ProjectIDHolder):
     count = 0
@@ -13,6 +22,8 @@ class Project(ProjectIDHolder):
     def __init__(self):
         # initialize ProjectIDHolder with domain 0, the only domain.
         super().__init__(0)
+
+        self.abspath = None
 
         # the domain for discriminating sources with same IDs etc.
         self.domain = self.__class__.count
@@ -51,7 +62,10 @@ class Project(ProjectIDHolder):
         return json.dumps(self.to_dict())
 
     def save(self, filepath):
-        pass
+        #save
+
+        if self.abspath == None:
+            self.abspath = os.path.abspath(filepath)
 
     @classmethod
     def from_dict(cls, d):
@@ -73,4 +87,7 @@ class Project(ProjectIDHolder):
         f = open(filepath)
         text = f.read()
         f.close()
-        return cls.from_json(text)
+
+        p = cls.from_json(text)
+        p.abspath = os.path.abspath(filepath)
+        return p

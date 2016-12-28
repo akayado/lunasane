@@ -5,6 +5,12 @@ from .track import TrackHeaderUI, TrackBodyUI
 from ..data.uistate import UIState
 from .uibase import UIBase
 
+"""
+TimelineUI enables editting a Composite.
+Multiple TimelineUIs can refer to a single Composite.
+In this case, modifications in one TimelineUI will be reflected to the Composite, and then
+the Composite will report the change to all corresponding TimelineUIs.
+"""
 
 class TimelineUI(QtWidgets.QFrame, UIBase):
     def __init__(self, state, parent=None):

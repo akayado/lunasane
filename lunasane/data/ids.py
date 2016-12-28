@@ -4,6 +4,13 @@ class IDNotFoundError(Exception):
     def __str__(self):
         return repr(self.value)
 
+"""
+new_id_classes returns a pair of an ID class and an ID holder class.
+IDs have domains, and IDs are unique within a domain.
+An ID class can have multiple domains, thus, for example, items with the same ID in 
+different Projects are permitted.
+"""
+
 def new_id_classes(_default_prefix, digits=4):
     class AbstractID(str):
         ids = {} # dictionary of used ids of each domain.
