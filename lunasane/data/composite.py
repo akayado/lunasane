@@ -1,4 +1,4 @@
-from .ids import DomainHolder, new_id_classes
+from .ids import DomainHolder
 from .source import Source, SourceID
 from .track import Track, track_from_dict
 
