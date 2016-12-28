@@ -61,7 +61,7 @@ class Project(ProjectIDHolder):
             return src
         p = cls()
         p.sources = [_source_from_dict(p, srcd) for srcd in d['sources']]
-        p.ui_states = [UIState.from_dict(sd) for sd in d['ui_states']]
+        p.ui_states = [UIState.from_dict(p, sd) for sd in d['ui_states']]
         return p
 
     @classmethod

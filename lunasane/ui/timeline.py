@@ -2,13 +2,18 @@
 
 from qtpy import QtGui, QtWidgets, QtCore
 from .track import TrackHeaderUI, TrackBodyUI
-from ..data.uistate.timeline import TimelineUIState
+from ..data.uistate import UIState
+from .uibase import UIBase
 
-class TimelineUI(QtWidgets.QFrame):
-    def __init__(self, composite, state, parent=None):
+
+class TimelineUI(QtWidgets.QFrame, UIBase):
+    def __init__(self, state, parent=None):
         super().__init__(parent)
-        self.composite = composite
         self.state = state
+        self.composite = state.project.source(state.params['composite_id'])
+        self.ui_base_init(self.composite.project)
+        self.track_heads = []
+        self.track_bodies = []
         self.initialize_ui()
 
     def initialize_ui(self):
@@ -16,10 +21,10 @@ class TimelineUI(QtWidgets.QFrame):
 
         layout = QtWidgets.QVBoxLayout()
 
-        hsplitter = QtWidgets.QSplitter(self)
+        vsplitter = QtWidgets.QSplitter(self)
 
-        header_splitter = QtWidgets.QSplitter(QtCore.Qt.Vertical, hsplitter)
-        body_splitter = QtWidgets.QSplitter(QtCore.Qt.Vertical, hsplitter)
+        self.header_splitter = QtWidgets.QSplitter(QtCore.Qt.Vertical, vsplitter)
+        self.body_splitter = QtWidgets.QSplitter(QtCore.Qt.Vertical, vsplitter)
 
 
         # Connect track header splitters to track body splitters
@@ -30,30 +35,35 @@ class TimelineUI(QtWidgets.QFrame):
             if last_moved != None:
                 return
             last_moved = 'header'
-            body_splitter.moveSplitter(a,b)
+            self.body_splitter.moveSplitter(a,b)
             last_moved = None
         def body_moved(a,b):
             nonlocal last_moved
             if last_moved != None:
                 return
             last_moved = 'body'
-            header_splitter.moveSplitter(a,b)
+            self.header_splitter.moveSplitter(a,b)
             last_moved = None
             
-        header_splitter.splitterMoved.connect(header_moved)
-        body_splitter.splitterMoved.connect(body_moved)
+        self.header_splitter.splitterMoved.connect(header_moved)
+        self.body_splitter.splitterMoved.connect(body_moved)
 
         
-        # Generate tracks
+        # Generate track UIs
 
         for track in self.composite.tracks:
-            header_splitter.addWidget(TrackHeaderUI(track, None, header_splitter))
-            body_splitter.addWidget(TrackBodyUI(track, None, body_splitter))
+            track_head = TrackHeaderUI(track, self.state, self.header_splitter)
+            self.track_heads += [track_head]
+            self.header_splitter.addWidget(track_head)
 
-        hsplitter.addWidget(header_splitter)
-        hsplitter.addWidget(body_splitter)
+            track_body = TrackBodyUI(track, self.state, self.body_splitter)
+            self.track_bodies += [track_body]
+            self.body_splitter.addWidget(track_body)
 
-        layout.addWidget(hsplitter)
+        vsplitter.addWidget(self.header_splitter)
+        vsplitter.addWidget(self.body_splitter)
+
+        layout.addWidget(vsplitter)
 
         self.setLayout(layout)
         

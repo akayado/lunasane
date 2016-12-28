@@ -25,5 +25,13 @@
 				}
 			]
 		}
+	],
+	"ui_states": [
+		{
+			"type": "timeline",
+			"params": {
+				"composite_id": "src0000"
+			}
+		}
 	]
 }

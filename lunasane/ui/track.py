@@ -1,11 +1,13 @@
 #TODO: Remove composite from __init__'s args.
 
 from qtpy import QtGui, QtWidgets, QtCore
-from ..data.uistate.track import TrackUIState
+from ..data.uistate import UIState
+from .uibase import UIBase
 
-class TrackHeaderUI(QtWidgets.QFrame):
-    def __init__(self, track, state, parent=None):
-        super().__init__(parent)
+class TrackHeaderUI(QtWidgets.QFrame, UIBase):
+    def __init__(self, track, state=None, parent=None):
+        QtWidgets.QFrame.__init__(self, parent)
+        self.ui_base_init(track.composite.project)
         self.track = track
         self.state = state
 
@@ -16,9 +18,10 @@ class TrackHeaderUI(QtWidgets.QFrame):
 
         self.setLayout(layout)
 
-class TrackBodyUI(QtWidgets.QFrame):
-    def __init__(self, track, state, parent=None):
-        super().__init__(parent)
+class TrackBodyUI(QtWidgets.QFrame, UIBase):
+    def __init__(self, track, state=None, parent=None):
+        QtWidgets.QFrame.__init__(self, parent)
+        self.ui_base_init(track.composite.project)
         self.track = track
         self.state = state
 

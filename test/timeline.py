@@ -9,8 +9,8 @@ def main():
     app = QtWidgets.QApplication(sys.argv)
 
     proj = Project.load('test/test.json')
-    
-    tl_ui = TimelineUI(proj.sources[0], None)
+
+    tl_ui = TimelineUI(proj.ui_states[0])
 
     tl_ui.show()
 

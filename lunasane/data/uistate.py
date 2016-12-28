@@ -9,9 +9,10 @@ single set of data possible.
 class UIState:
     TYPE_TIMELINE = 'timeline'
 
-    def __init__(self):
+    def __init__(self, project):
         self.type = self.TYPE_TIMELINE
         self.params = {}
+        self.project = project
 
     def to_dict(self):
         d = {
@@ -21,8 +22,8 @@ class UIState:
         return d
 
     @classmethod
-    def from_dict(cls, d):
-        s = cls()
+    def from_dict(cls, project, d):
+        s = cls(project)
         s.type = d['type']
         s.params = d['params']
         return s
