@@ -1,4 +1,10 @@
 {
+	"log": {
+		"do_standard": true,
+		"do_error": true,
+		"standard": "@SCRIPT_ROOT/log/lunasane.log",
+		"error": "@SCRIPT_ROOT/log/lunasane-error.log"
+	},
 	"i18n": {
 		"dir": "@SCRIPT_ROOT/config/i18n",
 		"language": "ja",

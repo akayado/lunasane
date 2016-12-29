@@ -2,5 +2,7 @@
     "Lunasane": "Lunasane",
     "app.description": "Lunasane: a movie editor.",
     "cl.usage.project.help": "A project file.",
+    "cl.usage.verbose.help": "Prints logs to standard output as well as to the log file.",
+    "cl.usage.version.help": "cl.usage.version.help",
     "lunasane": "lunasane"
 }
