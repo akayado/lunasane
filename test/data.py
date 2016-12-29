@@ -11,12 +11,17 @@ def main():
     app = QtWidgets.QApplication(sys.argv)
 
     proj = Project.load('test/test1.json')
+    proj2 = Project.load('test/test1_copy.json')
 
     tl_ui = TimelineUI(proj.ui_states[0])
+    track = Track.from_domain(1)
 
-    tl_ui.show()
-
-    sys.exit(app.exec_())
+    print(tl_ui.id.typed_serializable(), relative_full_id(full_id_from_instance(tl_ui), proj2))
+    print(track.id.typed_serializable(), relative_full_id(full_id_from_instance(track), proj2))
+    print(project_from_path('test/test1.json'))
+    print(full_id_to_instance('src::src0000', proj))
+    print(full_id_to_instance('src::src0000>trk::trk0001', proj))
+    print(full_id_to_instance('prj::test1_copy.json>src::src0000>trk::trk0001', proj))
 
 if __name__ == "__main__":
     main()

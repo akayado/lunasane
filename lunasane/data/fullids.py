@@ -40,7 +40,7 @@ def relative_full_id(fi, project):
             if os.path.abspath(val) == project.abspath:
                 fis.pop(i)
             else:
-                fis[i] = 'prj' + seps[0] + os.path.relpath(val, project.abspath)
+                fis[i] = 'prj' + seps[0] + os.path.relpath(val, os.path.dirname(project.abspath))
     return seps[1].join(fis)
 
 def full_id_to_instance(fi, baseproject=None):
