@@ -10,8 +10,6 @@ def source_from_dict(p, srcd):
     return src
 
 
-projects = {}
-
 ProjectID, ProjectIDHolder = new_id_classes('prj')
 
 """
@@ -27,6 +25,7 @@ Hence Projects must be saved to a file to be able to be referred to.
 class Project(ProjectIDHolder, DomainHolder):
     count = 0
     domain_dict = {}
+    instances = {}
 
     def __init__(self):
         # initialize ProjectIDHolder with domain 0, the only domain.
@@ -42,6 +41,8 @@ class Project(ProjectIDHolder, DomainHolder):
 
         # UI state data
         self.ui_states = []
+
+        self.__class__.instances[self.id.serializable()] = self
         
 
 
@@ -52,7 +53,7 @@ class Project(ProjectIDHolder, DomainHolder):
         if len(src) > 0:
             return src[0]
         else:
-            raise IDNotFoundError(src_id)
+            raise IDNotFoundError(src_id, self.domain)
 
 
     # import / export functionalities
@@ -97,7 +98,15 @@ class Project(ProjectIDHolder, DomainHolder):
         return p
 
 def project_from_id(i):
-    pass
+    try:
+        p = Project.instances[i]
+        return p
+    except KeyError:
+        raise IDNotFoundError(i)
+    except:
+        raise
 
-def project_from_path(i):
-    pass
+def project_from_path(p):
+    for v in Project.instances.values():
+        if v.abspath == os.path.abspath(p):
+            return v

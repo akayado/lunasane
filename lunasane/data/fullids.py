@@ -10,6 +10,8 @@ from .clip import Clip
 
 from ..ui.uibase import UIBase
 
+from .ids import seps, IDNotFoundError
+
 def full_id_from_id(i, domain=None, basepath=None):
     if domain == None:
         domain = i.domain
@@ -26,32 +28,38 @@ def full_id_from_instance(i, basepath=None):
         pass
 
     if isinstance(i, Project):
-        return 'prj:' + os.path.relpath(i.abspath, basepath)
+        return 'prj' + seps[0] + os.path.relpath(i.abspath, basepath)
     else:
-        return prefix + '::' + i.id.typed_serializable()
+        return prefix + seps[1] + i.id.typed_serializable()
 
 def relative_full_id(fi, project):
-    fis = fi.split('::')
+    fis = fi.split(seps[1])
     for i, v in enumerate(fis):
-        cat, val = v.split(':')
+        cat, val = v.split(seps[0])
         if cat == 'prj' and project.abspath != None:
             if os.path.abspath(val) == project.abspath:
                 fis.pop(i)
             else:
-                fis[i] = 'prj:' + os.path.relpath(val, project.abspath)
-    return '::'.join(fis)
+                fis[i] = 'prj' + seps[0] + os.path.relpath(val, project.abspath)
+    return seps[1].join(fis)
 
 def full_id_to_instance(fi, baseproject=None):
-    fis = fi.split('::')
+    fis = fi.split(seps[1])
 
     for i, v in enumerate(fis):
-        cat, val = v.split(':')
+        cat, val = v.split(seps[0])
 
         if i == 0:
             if cat == 'prj':
-                obj = project_from_id(val)
-                if obj == None:
-                    obj = project_from_path(val)
+                try:
+                    obj = project_from_id(val)
+                except IDNotFoundError:
+                    if baseproject == None:
+                        obj = project_from_path(val)
+                    else:
+                        obj = project_from_path(os.path.join(os.path.dirname(baseproject.abspath), val))
+                except:
+                    raise
             else:
                 obj = baseproject
         
