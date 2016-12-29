@@ -20,11 +20,11 @@ class Track(TrackIDHolder, DomainHolder):
 
     # import / export functionalities
 
-    def to_dict(self):
+    def to_dict(self, basepath):
         d = {
                 'id': self.id,
                 'name': self.name,
-                'clips': [c.to_dict() for c in self.clips],
+                'clips': [c.to_dict(basepath) for c in self.clips],
             }
         return d
 
@@ -39,8 +39,8 @@ class AudioTrack(Track):
 
     # import / export functionalities
 
-    def to_dict(self):
-        d = super().to_dict()
+    def to_dict(self, basepath):
+        d = Track.to_dict(self, basepath)
         d['type'] = 'audio'
         return d
 
@@ -57,8 +57,8 @@ class PianoTrack(AudioTrack):
 
     # import / export functionalities
 
-    def to_dict(self):
-        d = super().to_dict()
+    def to_dict(self, basepath):
+        d = AudioTrack.to_dict(self, basepath)
         d['type'] = 'piano'
         return d
 

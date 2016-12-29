@@ -8,7 +8,7 @@ class Clip:
 
     # import / export functionalities
 
-    def to_dict(self):
+    def to_dict(self, basepath):
         d = {}
         return d
 
@@ -30,7 +30,7 @@ class AudioClip(SourceClip):
 
     # import / export functionalities
 
-    def to_dict(self):
+    def to_dict(self, basepath):
         d = super().to_dict()
         d['type'] = 'audio'
         return d

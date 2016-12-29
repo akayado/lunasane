@@ -18,14 +18,15 @@ class Composite(Source, DomainHolder):
 
     # import / export functionalities
 
-    def to_dict(self):
-        d = super().to_dict()
+    def to_dict(self, basepath):
+        d = Source.to_dict(self, basepath)
         d['type'] = 'composite'
-        d['tracks'] = [t.to_dict for t in self.tracks]
+        d['tracks'] = [t.to_dict(basepath) for t in self.tracks]
         return d
 
     @classmethod
     def from_dict(cls, project, d):
         comp = cls(project, d['id'])
         comp.tracks = [track_from_dict(comp, track_d) for track_d in d['tracks']]
+        comp.name = d['name']
         return comp

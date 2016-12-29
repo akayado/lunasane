@@ -7,9 +7,10 @@ class Source(SourceIDHolder):
         super().__init__(project.domain, src_id)
         self.project = project
 
-    def to_dict(self):
+    def to_dict(self, basepath):
         d = {
                 'id': self.id.serializable(),
+                'name': self.name,
             }
         return d
 

@@ -14,7 +14,7 @@ class UIState:
         self.params = {}
         self.project = project
 
-    def to_dict(self):
+    def to_dict(self, basepath):
         d = {
                 'type': self.type,
                 'params': self.params,

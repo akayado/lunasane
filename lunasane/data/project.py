@@ -58,23 +58,24 @@ class Project(ProjectIDHolder, DomainHolder):
 
     # import / export functionalities
 
-    def to_dict(self):
-        srcs_d = [c.to_dict() for c in self.sources]
-        states_d = [s.to_dict() for s in self.ui_states]
+    def to_dict(self, basepath=None):
+        if basepath == None:
+            basepath = self.abspath
+        srcs_d = [c.to_dict(basepath) for c in self.sources]
+        states_d = [s.to_dict(basepath) for s in self.ui_states]
         d = {
                 'sources': srcs_d,
                 'ui_states': states_d
             }
         return d
 
-    def to_json(self):
-        return json.dumps(self.to_dict())
+    def to_json(self, basepath=None):
+        return json.dumps(self.to_dict(basepath), sort_keys=True, indent=4)
 
     def save(self, filepath):
-        #save
-
         if self.abspath == None:
             self.abspath = os.path.abspath(filepath)
+        json_str = self.to_json(os.path.abspath(filepath))
 
     @classmethod
     def from_dict(cls, d):
