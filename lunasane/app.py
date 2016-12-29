@@ -32,8 +32,10 @@ class Lunasane:
             raise SingletonError(self.__class__)
         self.app = Application(argv)
         self.__class__.instance = self
-        parser = argparse.ArgumentParser(description=_('app.description'))
+
+        parser = argparse.ArgumentParser(prog=_('lunasane'), description=_('app.description'))
         parser.add_argument('projects', metavar='project', type=str, nargs='+', help=_('cl.usage.project.help'))
+
         self.args = parser.parse_args()
         print(self.args.projects)
         self.projects = []
