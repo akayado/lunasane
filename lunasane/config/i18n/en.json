@@ -1,4 +1,6 @@
 {
     "Lunasane": "Lunasane",
+    "app.description": "Lunasane: a movie editor.",
+    "cl.usage.project.help": "A project file.",
     "lunasane": "lunasane"
 }

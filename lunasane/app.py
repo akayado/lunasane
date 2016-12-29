@@ -1,7 +1,7 @@
 import sys
+import argparse
 from qtpy import QtWidgets, QtGui
 from .i18n import _
-from .ui.timeline import TimelineUI
 
 
 """
@@ -21,19 +21,22 @@ class SingletonError(Exception):
 
 
 """
-Master object of the software, holds an instance of Application.
-Singleton.
+Master singleton object of the software, holds an instance of Application.
 """
 
 class Lunasane:
     instance = None
 
     def __init__(self, argv):
-        if self.__class__.instance == None:
-            self.app = Application(argv)
-            self.__class__.instance = self
-        else:
+        if self.__class__.instance != None:
             raise SingletonError(self.__class__)
+        self.app = Application(argv)
+        self.__class__.instance = self
+        parser = argparse.ArgumentParser(description=_('app.description'))
+        parser.add_argument('projects', metavar='project', type=str, nargs='+', help=_('cl.usage.project.help'))
+        self.args = parser.parse_args()
+        print(self.args.projects)
+        self.projects = []
 
     def exec_(self):
         return self.app.exec_()

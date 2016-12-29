@@ -1,4 +1,6 @@
 {
     "Lunasane": "Lunasane",
+    "app.description": "動画編集ソフト Lunasane",
+    "cl.usage.project.help": "プロジェクトファイル",
     "lunasane": "lunasane"
 }
