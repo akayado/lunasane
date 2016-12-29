@@ -6,4 +6,4 @@ __pycache__/
 *.so
 _build/
 .DS_Store
-.log
+*.log
