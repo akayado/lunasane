@@ -14,6 +14,9 @@ class Source(SourceIDHolder):
             }
         return d
 
+    def _link_items(self):
+        pass
+
     @classmethod
     def from_dict(cls, project, d):
         return None

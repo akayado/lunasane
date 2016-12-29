@@ -1,6 +1,6 @@
 import os
 
-from .project import Project, source_from_dict, project_from_id, project_from_path
+from .project import Project, source_from_dict, project_from_id, loaded_project_from_path
 from .uistate import UIState
 
 from .source import Source
@@ -66,11 +66,11 @@ def full_id_to_instance(fi, baseproject=None):
         if cat == 'src':
             obj = obj.source(val)
         elif cat == 'trk':
-            pass
+            obj = obj.track(val)
         elif cat == 'clp':
-            pass
+            obj = obj.clip(val)
         elif cat == 'wgt':
-            pass
+            obj = obj.ui(val)
     
     return obj
 

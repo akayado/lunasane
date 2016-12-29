@@ -1,12 +1,6 @@
 {
 	"sources": [
 		{
-			"id": "src0001",
-			"type": "composite",
-			"name": "Composite 2",
-			"tracks": []
-		},
-		{
 			"id": "src0000",
 			"type": "composite",
 			"name": "Composite 1",
@@ -18,7 +12,7 @@
 					"clips": [
 						{
 							"type": "audio",
-							"source": "src0001"
+							"source": "prj::test1.json>src0000"
 						}
 					]
 				},
@@ -29,7 +23,7 @@
 					"clips": [
 						{
 							"type": "audio",
-							"source": "src0002"
+							"source": "prj::test1.json>src0001"
 						}
 					]
 				},
@@ -40,12 +34,6 @@
 					"clips": []
 				}
 			]
-		},
-		{
-			"id": "src0002",
-			"type": "composite",
-			"name": "Composite 2",
-			"tracks": []
 		}
 	],
 	"ui_states": [

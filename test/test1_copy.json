@@ -1,6 +1,12 @@
 {
 	"sources": [
 		{
+			"id": "src0001",
+			"type": "composite",
+			"name": "Composite 2",
+			"tracks": []
+		},
+		{
 			"id": "src0000",
 			"type": "composite",
 			"name": "Composite 1",
@@ -9,13 +15,23 @@
 					"id": "trk0000",
 					"type": "audio",
 					"name": "Track 1",
-					"clips": []
+					"clips": [
+						{
+							"type": "audio",
+							"source": "src0001"
+						}
+					]
 				},
 				{
 					"id": "trk0001",
 					"type": "piano",
 					"name": "Track 2",
-					"clips": []
+					"clips": [
+						{
+							"type": "audio",
+							"source": "src0002"
+						}
+					]
 				},
 				{
 					"id": "trk0002",
@@ -24,6 +40,12 @@
 					"clips": []
 				}
 			]
+		},
+		{
+			"id": "src0002",
+			"type": "composite",
+			"name": "Composite 2",
+			"tracks": []
 		}
 	],
 	"ui_states": [

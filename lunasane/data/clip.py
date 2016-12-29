@@ -12,26 +12,31 @@ class Clip:
         d = {}
         return d
 
+    def _link_items(self):
+        pass
+
 class MidiToneClip(Clip):
     pass
 
 class SourceClip(Clip):
     def __init__(self, track, source):
-        super().__init__(track)
-        if isinstance(source, Source):
-            self.source = source
-        else:
-            self.source = track.composite.project.source(source)
+        Clip.__init__(self, track)
+        self.source = source
+        self.track = track
+
+    def _link_items(self):
+        if not isinstance(self.source, Source):
+            self.source = self.track.composite.project.source(self.source)
 
 class AudioClip(SourceClip):
     def __init__(self, track, source):
-        super().__init__(track, source)
+        SourceClip.__init__(self, track, source)
 
 
     # import / export functionalities
 
     def to_dict(self, basepath):
-        d = super().to_dict()
+        d = SourceClip.to_dict(basepath)
         d['type'] = 'audio'
         return d
 

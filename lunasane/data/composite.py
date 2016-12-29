@@ -16,6 +16,12 @@ class Composite(Source, DomainHolder):
         self.tracks = []
 
 
+    # get a child track by its ID
+    
+    def track(self, trk_id):
+        pass
+
+
     # import / export functionalities
 
     def to_dict(self, basepath):
@@ -23,6 +29,10 @@ class Composite(Source, DomainHolder):
         d['type'] = 'composite'
         d['tracks'] = [t.to_dict(basepath) for t in self.tracks]
         return d
+
+    def _link_items(self):
+        for t in self.tracks:
+            t._link_items()
 
     @classmethod
     def from_dict(cls, project, d):

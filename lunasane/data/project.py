@@ -55,6 +55,12 @@ class Project(ProjectIDHolder, DomainHolder):
         else:
             raise IDNotFoundError(src_id, self.domain)
 
+    
+    # get a top level ui by its ID
+
+    def ui(self, ui_id):
+        pass
+
 
     # import / export functionalities
 
@@ -77,11 +83,16 @@ class Project(ProjectIDHolder, DomainHolder):
             self.abspath = os.path.abspath(filepath)
         json_str = self.to_json(os.path.abspath(filepath))
 
+    def _link_items(self):
+        for s in self.sources:
+            s._link_items()
+
     @classmethod
     def from_dict(cls, d):
         p = cls()
         p.sources = [source_from_dict(p, srcd) for srcd in d['sources']]
         p.ui_states = [UIState.from_dict(p, sd) for sd in d['ui_states']]
+        p._link_items()
         return p
 
     @classmethod
@@ -107,7 +118,7 @@ def project_from_id(i):
     except:
         raise
 
-def project_from_path(p):
+def loaded_project_from_path(p):
     for v in Project.instances.values():
         if v.abspath == os.path.abspath(p):
             return v

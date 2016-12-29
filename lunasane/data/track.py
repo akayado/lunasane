@@ -17,6 +17,12 @@ class Track(TrackIDHolder, DomainHolder):
         self.name = name
         self.clips = []
 
+    
+    # get a child clip by its ID
+
+    def clip(self, clp_id):
+        pass
+
 
     # import / export functionalities
 
@@ -27,6 +33,10 @@ class Track(TrackIDHolder, DomainHolder):
                 'clips': [c.to_dict(basepath) for c in self.clips],
             }
         return d
+    
+    def _link_items(self):
+        for c in self.clips:
+            c._link_items()
 
     @classmethod
     def from_dict(cls, composite, d):
@@ -47,7 +57,7 @@ class AudioTrack(Track):
     @classmethod
     def from_dict(cls, composite, d):
         t = cls(composite, d['name'])
-        t.clips = [clip_from_dict(cd) for cd in d['clips']]
+        t.clips = [clip_from_dict(t, cd) for cd in d['clips']]
         return t
 
 class PianoTrack(AudioTrack):
@@ -65,7 +75,7 @@ class PianoTrack(AudioTrack):
     @classmethod
     def from_dict(cls, composite, d):
         t = cls(composite, d['name'])
-        t.clips = [clip_from_dict(cd) for cd in d['clips']]
+        t.clips = [clip_from_dict(t, cd) for cd in d['clips']]
         return t
 
 
