@@ -1,3 +1,10 @@
 {
-	"language": "ja"
+	"i18n": {
+		"dir": "@SCRIPT_ROOT/config/i18n",
+		"language": "ja",
+		"languages": [
+			"ja",
+			"en"
+		]
+	}
 }
