@@ -74,11 +74,15 @@ def new_id_classes(_default_prefix, _type_str=None, digits=4):
                     cls.ids[domain] = []
                 if (idobj not in cls.ids[domain]) and (idobj != None):
                     cls.register_id(domain, idobj)
-                    return super().__new__(cls, idobj)
+                    o = super().__new__(cls, idobj)
+                    o.domain = domain
+                    return o
                 else:
                     idobj = cls.new_id(domain)
                     cls.register_id(domain, idobj)
-                    return super().__new__(cls, idobj)
+                    o = super().__new__(cls, idobj)
+                    o.domain = domain
+                    return o
             else:
                 raise InvalidIDError(idobj)
 
@@ -126,6 +130,7 @@ def new_id_classes(_default_prefix, _type_str=None, digits=4):
                 self.id = idobj
             else:
                 self.id = AbstractID(domain, idobj)
+
 
     return AbstractID, AbstractIDHolder
 

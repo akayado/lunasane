@@ -1,0 +1,37 @@
+{
+	"sources": [
+		{
+			"id": "src0000",
+			"type": "composite",
+			"name": "Composite 1",
+			"tracks": [
+				{
+					"id": "trk0000",
+					"type": "audio",
+					"name": "Track 1",
+					"clips": []
+				},
+				{
+					"id": "trk0001",
+					"type": "piano",
+					"name": "Track 2",
+					"clips": []
+				},
+				{
+					"id": "trk0002",
+					"type": "audio",
+					"name": "Track 3",
+					"clips": []
+				}
+			]
+		}
+	],
+	"ui_states": [
+		{
+			"type": "timeline",
+			"params": {
+				"composite_id": "src0000"
+			}
+		}
+	]
+}

@@ -4,6 +4,14 @@ from .ids import DomainHolder, IDNotFoundError, new_id_classes
 from .composite import Composite
 from .uistate import UIState
 
+def source_from_dict(p, srcd):
+    if srcd['type'] == 'composite':
+        src = Composite.from_dict(p, srcd)
+    return src
+
+
+projects = {}
+
 ProjectID, ProjectIDHolder = new_id_classes('prj')
 
 """
@@ -69,12 +77,8 @@ class Project(ProjectIDHolder, DomainHolder):
 
     @classmethod
     def from_dict(cls, d):
-        def _source_from_dict(p, srcd):
-            if srcd['type'] == 'composite':
-                src = Composite.from_dict(p, srcd)
-            return src
         p = cls()
-        p.sources = [_source_from_dict(p, srcd) for srcd in d['sources']]
+        p.sources = [source_from_dict(p, srcd) for srcd in d['sources']]
         p.ui_states = [UIState.from_dict(p, sd) for sd in d['ui_states']]
         return p
 
@@ -91,3 +95,9 @@ class Project(ProjectIDHolder, DomainHolder):
         p = cls.from_json(text)
         p.abspath = os.path.abspath(filepath)
         return p
+
+def project_from_id(i):
+    pass
+
+def project_from_path(i):
+    pass
