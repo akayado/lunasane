@@ -1,6 +1,12 @@
 {
 	"sources": [
 		{
+			"id": "src0001",
+			"type": "alias",
+			"name": "Alias 1",
+			"ref": "prj::test1.json>src::src0000"
+		},
+		{
 			"id": "src0000",
 			"type": "composite",
 			"name": "Composite 1",
@@ -12,7 +18,7 @@
 					"clips": [
 						{
 							"type": "audio",
-							"source": "prj::test1.json>src0000"
+							"source": "src0001"
 						}
 					]
 				},
@@ -23,7 +29,7 @@
 					"clips": [
 						{
 							"type": "audio",
-							"source": "prj::test1.json>src0001"
+							"source": "src0001"
 						}
 					]
 				},

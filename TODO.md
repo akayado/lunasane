@@ -7,5 +7,4 @@
 * Add in-zip path denotation to Full-ID.
 * Network loading of projects and sources.
 * Dynamic-and-smart loading of sources.
-* Implement error logging.
 * Log more.

@@ -55,9 +55,9 @@ def full_id_to_instance(fi, baseproject=None):
                     obj = project_from_id(val)
                 except IDNotFoundError:
                     if baseproject == None:
-                        obj = project_from_path(val)
+                        obj = loaded_project_from_path(val)
                     else:
-                        obj = project_from_path(os.path.join(os.path.dirname(baseproject.abspath), val))
+                        obj = loaded_project_from_path(os.path.join(os.path.dirname(baseproject.abspath), val))
                 except:
                     raise
             else:

@@ -1,2 +1,2 @@
-Lunasane: a mad-oriented audio/video editor.
+Lunasane: a movie editor.
 

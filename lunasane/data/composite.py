@@ -19,7 +19,10 @@ class Composite(Source, DomainHolder):
     # get a child track by its ID
     
     def track(self, trk_id):
-        pass
+        for t in self.tracks:
+            if t.id == trk_id:
+                return t
+        raise IDNotFoundError(trk_id, self.project.domain)
 
 
     # import / export functionalities

@@ -2,11 +2,14 @@ import json
 import os.path
 from .ids import DomainHolder, IDNotFoundError, new_id_classes
 from .composite import Composite
+from .source import AliasSource
 from .uistate import UIState
 
 def source_from_dict(p, srcd):
     if srcd['type'] == 'composite':
         src = Composite.from_dict(p, srcd)
+    elif srcd['type'] == 'alias':
+        src = AliasSource.from_dict(p, srcd)
     return src
 
 
@@ -88,25 +91,25 @@ class Project(ProjectIDHolder, DomainHolder):
             s._link_items()
 
     @classmethod
-    def from_dict(cls, d):
+    def from_dict(cls, d, abspath):
         p = cls()
+        p.abspath = abspath
         p.sources = [source_from_dict(p, srcd) for srcd in d['sources']]
         p.ui_states = [UIState.from_dict(p, sd) for sd in d['ui_states']]
         p._link_items()
         return p
 
     @classmethod
-    def from_json(cls, json_str):
-        return cls.from_dict(json.loads(json_str))
+    def from_json(cls, json_str, abspath):
+        return cls.from_dict(json.loads(json_str), abspath)
     
     @classmethod
     def load(cls, filepath):
-        f = open(filepath)
-        text = f.read()
-        f.close()
+        with open(filepath) as f:
+            text = f.read()
+            f.close()
 
-        p = cls.from_json(text)
-        p.abspath = os.path.abspath(filepath)
+        p = cls.from_json(text, os.path.abspath(filepath))
         return p
 
 def project_from_id(i):
@@ -114,11 +117,13 @@ def project_from_id(i):
         p = Project.instances[i]
         return p
     except KeyError:
-        raise IDNotFoundError(i)
+        raise IDNotFoundError(i, 0)
     except:
         raise
 
-def loaded_project_from_path(p):
+def loaded_project_from_path(p, load_if_not_found=True):
     for v in Project.instances.values():
         if v.abspath == os.path.abspath(p):
             return v
+    if load_if_not_found:
+        return Project.load(p)

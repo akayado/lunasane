@@ -4,6 +4,7 @@ import json
 var_prefix = '@'
 consts = {
     'SCRIPT_ROOT': os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')),
+    'USER_HOME': os.path.abspath(os.path.expanduser('~')),
 }
 
 pref_path = os.path.join(consts['SCRIPT_ROOT'], 'config', 'preferences.json')
