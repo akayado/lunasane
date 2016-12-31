@@ -9,6 +9,8 @@ def main():
     try:
         lunasane = Lunasane(sys.argv)
         sys.exit(lunasane.exec_())
+    except(SystemExit):
+        pass
     except:
         print_exc()
 

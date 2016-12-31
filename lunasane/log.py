@@ -33,7 +33,7 @@ def _log(s):
 def print_exc():
     import traceback
     with open(err_filename, 'a') as fp:
-        fp.write(datetime.now().strftime(timefmt))
+        fp.write('EXCEPTION: '+datetime.now().strftime(timefmt))
         fp.write(os.linesep)
         traceback.print_exc(file=fp)
         fp.write(os.linesep)
