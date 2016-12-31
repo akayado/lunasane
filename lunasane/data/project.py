@@ -2,7 +2,7 @@ import json
 import os.path
 from .ids import DomainHolder, IDNotFoundError, new_id_classes
 from .composite import Composite
-from .source import AliasSource
+from .source import AliasSource, FileSource
 from .uistate import UIState
 
 def source_from_dict(p, srcd):
@@ -10,6 +10,8 @@ def source_from_dict(p, srcd):
         src = Composite.from_dict(p, srcd)
     elif srcd['type'] == 'alias':
         src = AliasSource.from_dict(p, srcd)
+    elif srcd['type'] == 'file':
+        src = FileSource.from_dict(p, srcd)
     return src
 
 

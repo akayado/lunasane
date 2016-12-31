@@ -1,0 +1,11 @@
+{
+	"sources": [
+		{
+			"id": "src0000",
+			"type": "file",
+			"name": "Source 1",
+			"ref": "dolphin.mp4"
+		}
+	],
+	"ui_states": []
+}

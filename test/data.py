@@ -21,6 +21,8 @@ def main():
     print(loaded_project_from_path('test/test1.json'))
     print(full_id_to_instance('src::src0000', proj))
     print(full_id_to_instance('src::src0000>trk::trk0001', proj))
+    print(proj2.sources)
+    print(proj2.sources[0].id)
     print(full_id_to_instance('prj::test2.json>src::src0000>trk::trk0000', proj))
 
 if __name__ == "__main__":
