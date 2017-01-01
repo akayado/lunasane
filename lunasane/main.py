@@ -3,14 +3,14 @@ from qtpy import QtWidgets, QtGui
 from .i18n import _
 from .ui.timeline import TimelineUI
 from .app import Lunasane
-from .log import print_exc
+from .log import _log, print_exc
 
 def main():
     try:
         lunasane = Lunasane(sys.argv)
         sys.exit(lunasane.exec_())
     except(SystemExit):
-        pass
+        _log('Bye-bye.')
     except:
         print_exc()
 

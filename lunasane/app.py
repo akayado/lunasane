@@ -40,12 +40,15 @@ class Lunasane:
         parser.add_argument('projects', metavar='project', type=str, nargs='*', help=_('cl.usage.project.help'))
         parser.add_argument('-V', '--verbose', action='store_true', help=_('cl.usage.verbose.help'))
         parser.add_argument('-v', '--version', action='version', help=_('cl.usage.version.help'), version='Lunasane '+self.__class__.version)
+        parser.add_argument('-c', '--config', action='store_true', help=_('cl.usage.config.help'))
+        parser.add_argument('-C', '--cui', action='store_true', help=_('cl.usage.cui.help'))
 
         self.args = parser.parse_args()
 
         set_log_verbose(self.args.verbose)
 
-        _log('started Lunasane')
+        _log('Hello.')
+        
         if len(self.args.projects) > 0:
             _log('started loading projects')
             self.projects = [Project.load(f) for f in self.args.projects]
