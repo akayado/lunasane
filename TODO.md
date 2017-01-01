@@ -1,5 +1,9 @@
 #TODOs
 
+##Do next
+
+* A medium can be referred to by multiple FileSources
+
 ##Important
 
 * Central saving/loading/managing of preferences thread/process-safe.
