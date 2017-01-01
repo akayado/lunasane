@@ -16,14 +16,12 @@ def main():
     print(src)
     print(src.ref)
 
+    #frame = src.ref.get_frame(0)
+    #print(frame)
+
     import gc
 
     del proj
-    gc.collect()
-
-    from moviepy.audio.io.AudioFileClip import AudioFileClip
-    afc = AudioFileClip("test/square.mp3")
-    del afc
     gc.collect()
 
 

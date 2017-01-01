@@ -1,7 +1,5 @@
 from .ids import new_id_classes, IDNotFoundError
-import os
-import gc
-from moviepy.video.io.VideoFileClip import VideoFileClip
+import os, gc, av
 from .preferences import preferences
 
 SourceID, SourceIDHolder = new_id_classes('src')
@@ -27,7 +25,7 @@ def load_media(ref):
     if ref in media_ref_dict:
         return media_ref_dict[ref]
 
-    media_ref_dict[ref] = VideoFileClip(ref)
+    media_ref_dict[ref] = object()
 
     return media_ref_dict[ref]
 

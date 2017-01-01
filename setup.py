@@ -9,11 +9,11 @@ setup(
         url='http://www.akayado.com/',
         packages=find_packages(),
         install_requires=[
-            'pyqt5',
-            'qtpy',
-            'moviepy',
             'numpy',
             'scipy',
+            'av',
+            'pyqt5',
+            'qtpy',
             ],
         entry_points="""
         [console_scripts]
