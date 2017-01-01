@@ -2,11 +2,11 @@ import sys, os
 sys.path.append(os.curdir)
 from qtpy import QtWidgets, QtGui
 from lunasane.i18n import _
-from lunasane.ui.timeline import TimelineUI
-from lunasane.data.project import Project, project_from_id, loaded_project_from_path
-from lunasane.data.track import Track
-from lunasane.data.fullids import full_id_from_instance, full_id_from_id, relative_full_id, full_id_to_instance
+from lunasane.data.project import Project
 
+from memory_profiler import profile
+
+@profile
 def main():
     app = QtWidgets.QApplication(sys.argv)
 
@@ -15,6 +15,16 @@ def main():
     src = proj.sources[0]
     print(src)
     print(src.ref)
+
+    import gc
+
+    del proj
+    gc.collect()
+
+    from moviepy.audio.io.AudioFileClip import AudioFileClip
+    afc = AudioFileClip("test/square.mp3")
+    del afc
+    gc.collect()
 
 
 if __name__ == "__main__":

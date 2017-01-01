@@ -1,6 +1,8 @@
 from .ids import new_id_classes, IDNotFoundError
 import os
+import gc
 from moviepy.video.io.VideoFileClip import VideoFileClip
+from .preferences import preferences
 
 SourceID, SourceIDHolder = new_id_classes('src')
 
@@ -48,11 +50,23 @@ class FileSource(Source):
     def _link_items(self):
         self.ref = load_media(self.ref_str)
 
+    def _release_items(self):
+        if preferences['memory']['release_files']:
+            del media_ref_dict[self.ref_str]
+        del self.ref
+        self.ref = None
+        gc.collect()
+
 
     @classmethod
     def from_dict(cls, project, d):
         src = cls(project, d['ref'], d['id'])
         return src
+
+
+    def __del__(self):
+        self._release_items()
+
 
 class AliasSource(Source):
     def __init__(self, project, ref, src_id=None):
