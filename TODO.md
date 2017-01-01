@@ -2,7 +2,11 @@
 
 ##Do next
 
-* A medium can be referred to by multiple FileSources
+1. Show a movie.
+1. Refactor source.py
+1. A medium can be referred to by multiple FileSources
+1. Show a project.
+1. Refactor i18n.
 
 ##Important
 
