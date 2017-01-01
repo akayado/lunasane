@@ -7,6 +7,7 @@
 1. A medium can be referred to by multiple FileSources
 1. Show a project.
 1. Refactor i18n.
+1. Write docstrings.
 
 ##Important
 
