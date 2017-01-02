@@ -6,15 +6,19 @@ from .log import _log, set_log_verbose
 from .data.project import Project
 
 
-"""
-QApplication subclass.
-"""
-
 class Application(QtWidgets.QApplication):
+    """QApplication subclass.
+
+    This is made to separate Qt dependencies from other parts of the code,
+    so basically you don't want to touch this.
+    """
     pass
 
 
 class SingletonError(Exception):
+    """This error is raised  when a class intended to be a singleton is instanciated multiple times.
+    """
+
     def __init__(self, cls):
         self.cls = cls
 
@@ -22,13 +26,12 @@ class SingletonError(Exception):
         return str(self.cls)
 
 
-"""
-Master singleton object of the software, holds an instance of Application.
-"""
-
 class Lunasane:
-    instance = None
-    version = '0.0.1'
+    """Master singleton object of the software, holds an instance of Application.
+    """
+
+    instance = None #The only instance of this class.
+    version = '0.0.1' #The version of this app.
 
     def __init__(self, argv):
         if self.__class__.instance != None:
@@ -56,4 +59,8 @@ class Lunasane:
 
 
     def exec_(self):
+        """Calls QApplication.exec_() and enters the mainloop.
+
+        :returns: The return code of QApplication.exec_().
+        """
         return self.app.exec_()

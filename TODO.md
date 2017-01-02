@@ -2,11 +2,11 @@
 
 ##Do next
 
-1. Show a movie.
+1. Play a movie properly.
 1. Refactor source.py
 1. A medium can be referred to by multiple FileSources
 1. Show a project.
-1. Refactor i18n.
+1. Refactor i18n for plugins.
 1. Write docstrings.
 
 ##Important
@@ -24,7 +24,7 @@
 * Dynamic-and-smart loading of sources.
 
 
-##Not so important
+##Not so important but on mind
 
 * Log more.
 * Config editor.

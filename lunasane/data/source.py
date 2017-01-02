@@ -20,12 +20,17 @@ class Source(SourceIDHolder):
 media_ref_dict = {}
 
 def load_media(ref):
+    """
+    Loads media from ref (abspath) and stores it.
+    ref must be an abspath so that they are unique.
+    """
+
     global media_ref_dict
 
     if ref in media_ref_dict:
         return media_ref_dict[ref]
 
-    media_ref_dict[ref] = object()
+    media_ref_dict[ref] = av.open(ref)
 
     return media_ref_dict[ref]
 
@@ -34,7 +39,7 @@ class FileSource(Source):
     def __init__(self, project, ref_str, src_id=None):
         super().__init__(project, src_id)
         self.ref_str_original = ref_str
-        self.ref_str = os.path.join(os.path.dirname(project.abspath), ref_str)
+        self.ref_str = os.path.abspath(os.path.join(os.path.dirname(project.abspath), ref_str))
         self.ref = None
 
     # import / export functionalities

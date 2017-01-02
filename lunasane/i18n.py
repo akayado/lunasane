@@ -9,6 +9,17 @@ languages = None
 check_all_langs = False
 
 def i18n_init(lang=None):
+    """ (Re-)initializes i18n module.
+
+    This must be called each time the "i18n" section of the preferences is modified.
+    In this module we register this func with on_pref_update(), so as long as the
+    preferences are not modified irregularly you don't need to care.
+    This is automatically called when the module is first loaded,
+    so you don't need to care about that either.
+
+    :param lang: The language to initialize to.
+    """
+
     global dictionary, i18n_dir, language, languages
 
     i18n_dir = replace_vars(preferences['i18n']['dir'])
@@ -24,6 +35,13 @@ def i18n_init(lang=None):
     i18n_fp.close()
 
 def add_to_dicts(key):
+    """Adds a key to dictionaries of all languages, if it doesn't exist.
+
+    Intended to be used internally by _().
+
+    :param key: The key to add.
+    """
+
     global dictionary, languages, i18n_dir
     if key not in dictionary:
         dictionary[key] = key
@@ -38,6 +56,15 @@ def add_to_dicts(key):
             fp.close()
 
 def _(s):
+    """Translation.
+
+    If s is not in the current language's dictionary, it is going to
+    be added to each language's dictionary that doesn't have it
+    for convenience.
+
+    :param s: str to be translated.
+    """
+
     if s in dictionary:
         return dictionary[s]
     if s not in dictionary or check_all_langs:
