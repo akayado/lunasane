@@ -4,6 +4,11 @@ from .clip import clip_from_dict
 TrackID, TrackIDHolder = new_id_classes('trk')
 
 class Track(TrackIDHolder, DomainHolder):
+    """The abstract superclass of all tracks.
+
+    Tracks exist in Composites and can own Clips of their own type.
+    Tracks are descriminated by a TrackID.
+    """
     count = 0
     domain_dict = {}
     
@@ -43,6 +48,8 @@ class Track(TrackIDHolder, DomainHolder):
         pass
 
 class AudioTrack(Track):
+    """The (super)class of all Tracks that have audio-related data.
+    """
     def __init__(self, composite, name, track_id=None):
         Track.__init__(self, composite, name, track_id)
 
@@ -61,6 +68,9 @@ class AudioTrack(Track):
         return t
 
 class PianoTrack(AudioTrack):
+    """The (super)class of all Tracks that can be shown as a piano roll.
+    """
+
     def __init__(self, composite, name, track_id=None):
         AudioTrack.__init__(self, composite, name, track_id)
 
