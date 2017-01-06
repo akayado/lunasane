@@ -6,6 +6,7 @@
 1. Preparing, seeking, getting frames etc. with FileSource.
 1. Show a project.
 1. Play a movie properly.
+1. Implement effects and transitions.
 1. Refactor i18n for plugins.
 1. Write docstrings.
 
