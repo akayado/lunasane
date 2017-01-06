@@ -26,7 +26,9 @@ class Track(TrackIDHolder, DomainHolder):
     # get a child clip by its ID
 
     def clip(self, clp_id):
-        pass
+        for c in self.clips:
+            if c.id.serializable() == clp_id:
+                return c
 
 
     # import / export functionalities

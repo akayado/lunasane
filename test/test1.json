@@ -29,7 +29,8 @@
 					"clips": [
 						{
 							"type": "audio",
-							"source": "src0002"
+							"source": "src0002",
+							"id": "clp0000"
 						}
 					]
 				},

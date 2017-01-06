@@ -40,9 +40,6 @@ class Project(ProjectIDHolder, DomainHolder):
     Projects hold ProjectIDs that CANNOT be used to refer resources among projects.
     Usage of these ProjectIDs don't exist yet, though may occur in the future.
 
-    Projects can refer to each other using their file paths (relatie/absolute).
-    Hence Projects must be saved to a file to be able to be referred to.
-
     Each project has a domain number of Sources and UIStates so that Sources in
     different Projects loaded at the same time can have same IDs.
     """

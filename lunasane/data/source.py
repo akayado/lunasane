@@ -114,13 +114,13 @@ class FileSource(Source):
 class AliasSource(Source):
     """A Source that depends on data of another Source.
 
-    Intended to be used as an alias of a source in another Project (either local or remote), or
-    creating an alias of a certain time range of a Composite for convenience.
+    Intended to be used for
+    creating an alias of a certain time range of a Composite, just for convenience.
 
     If an AliasSource is an alias of a Composite, this is not a Composite so
     it is not editable.
 
-    For that kind of use, the user would just copy a composite.
+    For that kind of use, the user should just copy a composite.
     """
     def __init__(self, project, ref, src_id=None):
         super().__init__(project, src_id)

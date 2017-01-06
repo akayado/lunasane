@@ -1,3 +1,13 @@
+"""A module for full-ids 
+
+A Full-ID is a str that has the following format.
+
+src::SOURCE ID[>trk::TRACK ID[>clp::CLIP ID]]
+wgt::TOP LEVEL WIDGET ID
+
+An item can refer to another using a Full-ID.
+"""
+
 import os
 
 from .project import Project, source_from_dict, project_from_id, loaded_project_from_path
@@ -12,57 +22,24 @@ from ..ui.uibase import UIBase
 
 from .ids import seps, IDNotFoundError
 
-def full_id_from_id(i, domain=None, basepath=None):
-    if domain == None:
-        domain = i.domain
-    return full_id_from_instance(i.ids[domain][i.serializable()], basepath)
-
-def full_id_from_instance(i, basepath=None):
+def full_id_from_instance(i):
     if isinstance(i, Clip):
         prefix = full_id_from_instance(i.track)
     elif isinstance(i, Track):
         prefix = full_id_from_instance(i.composite)
     elif isinstance(i, Source) or isinstance(i, UIBase):
-        prefix = full_id_from_instance(i.project)
-    elif isinstance(i, Project):
-        pass
+        return i.id.typed_serializable()
 
-    if isinstance(i, Project):
-        return 'prj' + seps[0] + os.path.relpath(i.abspath, basepath)
-    else:
-        return prefix + seps[1] + i.id.typed_serializable()
+    return prefix + seps[1] + i.id.typed_serializable()
 
-def relative_full_id(fi, project):
+def full_id_to_instance(fi, baseproject):
     fis = fi.split(seps[1])
-    for i, v in enumerate(fis):
-        cat, val = v.split(seps[0])
-        if cat == 'prj' and project.abspath != None:
-            if os.path.abspath(val) == project.abspath:
-                fis.pop(i)
-            else:
-                fis[i] = 'prj' + seps[0] + os.path.relpath(val, os.path.dirname(project.abspath))
-    return seps[1].join(fis)
 
-def full_id_to_instance(fi, baseproject=None):
-    fis = fi.split(seps[1])
+    obj = baseproject
 
     for i, v in enumerate(fis):
         cat, val = v.split(seps[0])
 
-        if i == 0:
-            if cat == 'prj':
-                try:
-                    obj = project_from_id(val)
-                except IDNotFoundError:
-                    if baseproject == None:
-                        obj = loaded_project_from_path(val)
-                    else:
-                        obj = loaded_project_from_path(os.path.join(os.path.dirname(baseproject.abspath), val))
-                except:
-                    raise
-            else:
-                obj = baseproject
-        
         if cat == 'src':
             obj = obj.source(val)
         elif cat == 'trk':

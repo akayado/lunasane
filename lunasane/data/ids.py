@@ -130,6 +130,8 @@ def new_id_classes(_default_prefix, _type_str=None, digits=4):
                 cnt += 1
 
     class AbstractIDHolder:
+        instances = {}
+
         def __init__(self, domain, idobj=None):
             if idobj == None:
                 self.id = AbstractID(domain)
@@ -137,6 +139,8 @@ def new_id_classes(_default_prefix, _type_str=None, digits=4):
                 self.id = idobj
             else:
                 self.id = AbstractID(domain, idobj)
+
+            self.__class__.instances[self.id.serializable()] = self
 
 
     return AbstractID, AbstractIDHolder
