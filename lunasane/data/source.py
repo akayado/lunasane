@@ -81,6 +81,8 @@ class FileSource(Source):
     # Memory management
 
     def load(self):
+        """Opens the file and replace the placeholders.
+        """
         if self.ref == None:
             self.ref = av.open(self.abspath)
             self.n_audio_streams = len([s for s in self.ref.streams if s.type == 'audio'])
