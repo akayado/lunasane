@@ -76,23 +76,25 @@ class Project(ProjectIDHolder, DomainHolder):
 
 
     def source(self, src_id):
-        """
-        Get a source from this Project by its SourceID.
+        """Get a source from this Project by its SourceID.
 
         :param src_id: ID, can be either SourceID or a str.
         """
-
-        src = list(filter(lambda c: c.id == src_id, self.sources))
-        if len(src) > 0:
-            return src[0]
-        else:
-            raise IDNotFoundError(src_id, self.domain)
+        for s in self.sources:
+            if s.id == src_id:
+                return s
+        raise IDNotFoundError(src_id, self.domain)
 
     
-    # get a top level ui by its ID
+    def ui_state(self, ui_id):
+        """Get a top level ui's UIState by its UIStateID.
 
-    def ui(self, ui_id):
-        pass
+        :param ui_id: ID, can be either UIStateID or a str.
+        """
+        for s in self.ui_states:
+            if s.id == ui_id:
+                return s
+        raise IDNotFoundError(ui_id, self.domain)
 
 
     # import / export functionalities
