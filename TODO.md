@@ -2,10 +2,10 @@
 
 ##Do next
 
-1. Play a movie properly.
-1. Refactor source.py
-1. A medium can be referred to by multiple FileSources
+1. Release memory from FileSource.
+1. Seeking, getting frames etc. with FileSource.
 1. Show a project.
+1. Play a movie properly.
 1. Refactor i18n for plugins.
 1. Write docstrings.
 

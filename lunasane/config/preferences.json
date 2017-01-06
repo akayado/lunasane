@@ -12,8 +12,5 @@
 			"ja",
 			"en"
 		]
-	},
-	"memory": {
-		"release_files": true
 	}
 }

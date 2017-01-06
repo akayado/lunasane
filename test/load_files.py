@@ -14,10 +14,12 @@ def main():
     
     src = proj.sources[0]
     print(src)
-    print(src.ref, src.ref.duration/av.time_base)
+    src.prepare()
+    print(src.ref, src.duration)
 
     for s in src.ref.streams:
         print(s, s.duration)
+        print(s.type)
 
         pkts = src.ref.demux(s)
         pkt = next(pkts)
@@ -41,7 +43,7 @@ def main():
 
     import gc
     
-    del src
+    src.release()
     del proj
     gc.collect()
 

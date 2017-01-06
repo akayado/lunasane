@@ -36,7 +36,6 @@ class Lunasane:
     def __init__(self, argv):
         if self.__class__.instance != None:
             raise SingletonError(self.__class__)
-        self.app = Application(argv)
         self.__class__.instance = self
 
         parser = argparse.ArgumentParser(prog=_('lunasane'), description=_('app.description'))
@@ -50,6 +49,7 @@ class Lunasane:
 
         set_log_verbose(self.args.verbose)
 
+        self.app = Application(argv)
         _log('Hello.')
         
         if len(self.args.projects) > 0:

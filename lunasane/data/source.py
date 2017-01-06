@@ -20,6 +20,10 @@ class Source(SourceIDHolder):
         super().__init__(project.domain, src_id)
         self.project = project
 
+        #below are placeholders
+        self.duration = -1
+        self.media_types = []
+
     def to_dict(self, basepath):
         d = {
                 'id': self.id.serializable(),
@@ -28,78 +32,45 @@ class Source(SourceIDHolder):
         return d
 
 
-media_ref_dict = {}
-
-def load_media(ref):
-    """Loads media from ref (abspath) and stores it if it isn't yet.
-
-    ref must be an abspath so that they are unique.
-
-    Returns the corresponding buffer class object.
-    """
-
-    global media_ref_dict
-
-    if ref in media_ref_dict:
-        return media_ref_dict[ref]
-
-    media_ref_dict[ref] = av.open(ref)
-
-    return media_ref_dict[ref]
-
-
 class FileSource(Source):
     """Image/audio/video sources that are loaded from files.
 
-    FileSources don't directly own their data (e.g. pixels, sound samples).
-    Instead, they refer to a AudioBuffer and/or a VideoBuffer
-    (single images are stored in ImageBuffers, which are specialized VideoBuffers).
-    This is mainly because a user may want to give different names to the same data,
-    and in that case managing the data at one place will save memory.
+    Extracting different ranges/streams of a file should be done with AliasSources.
     """
 
-    def __init__(self, project, ref_str, src_id=None):
+    AV_TIME_BASE = 1000000
+
+    def __init__(self, project, path, src_id=None):
+        """
+        :param project: The parent project.
+        :param path: The file path, can be a relative path to the project file.
+        :param offset: The offset of the source in frames.
+        :param duration: The duration of the source in frames. None means use the duration of the FileBuffer.
+        """
         super().__init__(project, src_id)
-        self.ref_str_original = ref_str
-        self.ref_str = os.path.abspath(os.path.join(os.path.dirname(project.abspath), ref_str))
+        self.path_original = path
+        self.abspath = os.path.abspath(os.path.join(os.path.dirname(project.abspath), path))
+
+        #below are placeholders
         self.ref = None
+        self.n_video_streams = -1
+        self.n_audio_streams = -1
+
 
     # import / export functionalities
 
     def to_dict(self, basepath):
         d = Source.to_dict(self, basepath)
         d['type'] = 'file'
-        d['ref'] = self.ref_str_original
+        d['ref'] = self.path_original
         return d
 
     def _link_items(self):
         """Internally called when a parent Project is opened.
+
+        Nothing need to be done here.
         """
         pass
-
-    def prepare(self, time_range=None):
-        """Load data to the buffer if it is not yet, and tell the buffer object to deflate the needed part it.
-
-        This is a stub.
-
-        :param time_range: What range of data we want. The entire Source by default.
-        """
-        self.ref = load_media(self.ref_str)
-
-
-    def _release_items(self):
-        """Internally called when a parent Project is closed.
-
-        This is a stub.
-
-        I need to make sure that the gc releases memory as I intend.
-        """
-        if preferences['memory']['release_files']:
-            del media_ref_dict[self.ref_str]
-        del self.ref
-        self.ref = None
-        gc.collect()
-
 
     @classmethod
     def from_dict(cls, project, d):
@@ -107,8 +78,48 @@ class FileSource(Source):
         return src
 
 
+    # Memory management
+
+    def load(self):
+        if self.ref == None:
+            self.ref = av.open(self.abspath)
+            self.n_audio_streams = len([s for s in self.ref.streams if s.type == 'audio'])
+            self.n_video_streams = len([s for s in self.ref.streams if s.type == 'video'])
+            if self.n_audio_streams > 0:
+                self.media_types += ['audio']
+            if self.n_video_streams > 0:
+                self.media_types += ['video']
+            self.duration = self.ref.duration / self.AV_TIME_BASE
+
+    def prepare(self, time_range=None):
+        """Load data to the buffer if it is not yet, and tell the buffer object to deflate the needed part of it.
+
+        This is a stub.
+
+        :param time_range: What range of data we want. The entire Source by default.
+        """
+        if self.ref == None:
+            self.load()
+
+        ########DO PREPARING###########
+
+    def release(self):
+        """Called when a parent Project is closed.
+
+        This is a stub.
+
+        I need to make sure that the gc releases memory as I intend.
+        To do that, I need to del the element of self.buffers as well.
+        Refcount needed...?
+        """
+        del self.ref
+        self.ref = None
+        gc.collect()
+
+
     def __del__(self):
-        self._release_items()
+        self.release()
+
 
 
 class AliasSource(Source):
